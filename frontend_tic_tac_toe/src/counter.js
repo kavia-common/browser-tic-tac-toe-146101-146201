@@ -1,9 +1,5 @@
-export function setupCounter(element) {
-  let counter = 0
-  const setCounter = (count) => {
-    counter = count
-    element.innerHTML = `count is ${counter}`
-  }
-  element.addEventListener('click', () => setCounter(counter + 1))
-  setCounter(0)
-}
+/**
+ * Placeholder file retained from Vite template. Not used in the app.
+ * Kept to avoid accidental imports by external tooling.
+ */
+export {}
