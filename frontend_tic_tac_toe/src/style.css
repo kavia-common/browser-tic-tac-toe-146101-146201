@@ -155,7 +155,8 @@ body {
 
 .cell-value {
   font-weight: 800;
-  font-size: clamp(2.2rem, 6vw, 3rem);
+  font-size: clamp(2.4rem, 6.4vw, 3.2rem); /* Slightly larger for chess icons */
+  line-height: 1; /* Avoid extra vertical spacing with Unicode glyphs */
   letter-spacing: -0.02em;
   transition: transform var(--transition), color var(--transition), text-shadow var(--transition);
   text-shadow: 0 1px 0 rgba(255,255,255,0.55);

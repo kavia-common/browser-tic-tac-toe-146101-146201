@@ -107,6 +107,29 @@ function Board({ board, onCellClick, highlight }) {
 
 /**
  * PUBLIC_INTERFACE
+ * ChessIcon
+ * Renders an accessible chess icon for X (knight) or O (queen).
+ * Uses Unicode pieces with ARIA labels for better accessibility.
+ * @param {{kind: 'X'|'O'}} props
+ */
+function ChessIcon({ kind }) {
+  const isX = kind === "X";
+  const char = isX ? "♞" : "♛"; // Knight for X, Queen for O
+  const label = isX ? "Knight" : "Queen";
+  return (
+    <span
+      className={`cell-value ${isX ? "x" : "o"}`}
+      role="img"
+      aria-label={label}
+      aria-hidden={false}
+    >
+      {char}
+    </span>
+  );
+}
+
+/**
+ * PUBLIC_INTERFACE
  * Cell
  * Single cell in the Tic Tac Toe grid.
  * @param {{value: 'X' | 'O' | null, onClick: ()=>void, isHighlighted: boolean}} props
@@ -114,7 +137,7 @@ function Board({ board, onCellClick, highlight }) {
 function Cell({ value, onClick, isHighlighted }) {
   const ariaLabel =
     value === "X" || value === "O"
-      ? `Cell contains ${value}`
+      ? `Cell contains ${value === "X" ? "Knight" : "Queen"}`
       : "Empty cell, click to place your mark";
 
   return (
@@ -124,7 +147,7 @@ function Cell({ value, onClick, isHighlighted }) {
       onClick={onClick}
       aria-label={ariaLabel}
     >
-      {value && <span className={`cell-value ${value === "X" ? "x" : "o"}`}>{value}</span>}
+      {value && <ChessIcon kind={value} />}
     </button>
   );
 }
@@ -163,10 +186,12 @@ function calculateWinner(squares) {
  * @param {{winner?: 'X'|'O', isDraw: boolean, next: 'X'|'O'}} props
  */
 function StatusBadge({ winner, isDraw, next }) {
+  const renderIcon = (mark) => (mark ? <ChessIcon kind={mark} /> : null);
+
   if (winner) {
     return (
       <div className="status-badge win" data-testid="status">
-        Winner: <strong>{winner}</strong>
+        Winner: <strong className="status-strong-icon">{renderIcon(winner)}</strong>
       </div>
     );
   }
@@ -179,7 +204,7 @@ function StatusBadge({ winner, isDraw, next }) {
   }
   return (
     <div className="status-badge next" data-testid="status">
-      Next turn: <strong>{next}</strong>
+      Next turn: <strong className="status-strong-icon">{renderIcon(next)}</strong>
     </div>
   );
 }
